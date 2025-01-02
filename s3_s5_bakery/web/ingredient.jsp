@@ -5,6 +5,16 @@
     <title>Liste des Ingrédients</title>
 </head>
 <body>
+
+ <h1>Ajouter un Ingrédient</h1>
+    <form action="IngredientServlet" method="post">
+        <label for="nomIngredient">Nom:</label>
+        <input type="text" id="nomIngredient" name="nomIngredient" required><br><br>
+        <label for="prixIngredient">Prix:</label>
+        <input type="number" step="0.01" id="prixIngredient" name="prixIngredient" required><br><br>
+        <input type="submit" value="Ajouter">
+</form>
+
     <h1>Liste des Ingrédients</h1>
     <table border="1">
         <thead>
