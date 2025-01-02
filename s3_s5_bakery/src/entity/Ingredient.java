@@ -130,13 +130,16 @@ public class Ingredient{
         return ingredients;
     }
     public static void main(String[] args) {
+        Ingredient ingredient = new Ingredient();
+        ingredient.setNomIngredient("Grac");
+        ingredient.setPrixIngredient(10.99);
+        ingredient.setEtatIngredient(true);
+        
         try {
-            List<Ingredient> ingredients = Ingredient.getAll();
-            for (Ingredient ingredient : ingredients) {
-                System.out.println(ingredient.getIdIngredient() + " " + ingredient.getNomIngredient() + " " + ingredient.getPrixIngredient());
-            }
+            ingredient.create();
+            System.out.println("Ingredient created successfully.");
         } catch (SQLException e) {
-            e.printStackTrace();
-    }  
-}
+            System.out.println("Failed to create ingredient: " + e.getMessage());
+        }
+    }
 }
