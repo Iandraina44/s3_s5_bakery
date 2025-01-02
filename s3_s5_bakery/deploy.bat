@@ -1,6 +1,6 @@
 @echo off
 
-set "root=D:\ITU\S5\cluster\Project_balanced"
+set "root=D:\ITU\S5\s3_s5\s3_s5_bakery\s3_s5_bakery"
 set "bin=%root%\bin"
 set "lib=%root%\lib"
 
@@ -8,7 +8,7 @@ set "lib=%root%\lib"
 set "web=%root%\web"
 set "temp=%root%\temp"
 set "src=%root%\src"
-set "target_dir=C:\WEBSERVER\wildfly-10.0.0.Final\standalone\deployments"
+set "target_dir=C:\WEBSERVER\apachetomcat\webapps"
 
 set "war_name=balanced"
 
