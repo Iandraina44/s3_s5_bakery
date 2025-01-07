@@ -1,7 +1,6 @@
 @echo off
 
-@REM set "root=D:\ITU\S5\s3_s5\s3_s5_bakery\s3_s5_bakery"
-set "root=C:\Users\Aina\Documents\S3_S5\s3_s5_bakery\s3_s5_bakery"
+set "root=D:\ITU\S5\s3_s5\s3_s5_bakery\s3_s5_bakery"
 
 
 set "bin=%root%\bin"
@@ -10,10 +9,10 @@ set "lib=%root%\lib"
 set "web=%root%\web"
 set "temp=%root%\temp"
 set "src=%root%\src"
-set "target_dir=C:\Program Files\Apache Software Foundation\Tomcat 10.0\webapps"
+set "target_dir=C:\WEBSERVER\apachetomcat\webapps"
 
 
-set "war_name=balanced"
+set "war_name=bakery"
 
 
 :: copy all java files to temp directory
