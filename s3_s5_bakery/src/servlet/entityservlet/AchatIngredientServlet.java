@@ -25,7 +25,7 @@ public class AchatIngredientServlet extends HttpServlet {
 
             if (action.equals("delete")) {
                 int idAchatIngredient = Integer.parseInt(request.getParameter("id_achat_ingredient"));
-                AchatIngredient.annulerAchat(idAchatIngredient);
+                AchatIngredient.delete(idAchatIngredient);
             }
 
 

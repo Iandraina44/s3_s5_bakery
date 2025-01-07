@@ -16,8 +16,8 @@ public class StockIngredient {
     private boolean etat;
     private Ingredient ingredient;
     private Timestamp dateStockIngredient;
-    private AchatIngredient achatIngredient;  // New attribute for AchatIngredient
 
+    // Getters and Setters
     public int getIdStockIngredient() {
         return idStockIngredient;
     }
@@ -58,30 +58,32 @@ public class StockIngredient {
         this.dateStockIngredient = dateStockIngredient;
     }
 
-    public AchatIngredient getAchatIngredient() {
-        return achatIngredient;
-    }
 
-    public void setAchatIngredient(AchatIngredient achatIngredient) {
-        this.achatIngredient = achatIngredient;
-    }
-
-    public void create() throws SQLException {
+    // Create method
+    public int create() throws SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
         try {
             connection = Connexion.getConnexion();
-            String sql = "INSERT INTO stock_ingredient (quantite_stock_ingredient, etat, date_stock_ingredient, id_ingredient, id_achat_ingredient) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO stock_ingredient (quantite_stock_ingredient, etat, date_stock_ingredient, id_ingredient) VALUES (?, ?, ?, ?) RETURNING id_stock_ingredient";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setDouble(1, this.quantiteStockIngredient);
             preparedStatement.setBoolean(2, true);
             preparedStatement.setTimestamp(3, this.dateStockIngredient);
             preparedStatement.setInt(4, this.ingredient.getIdIngredient());
-            preparedStatement.setInt(5, this.achatIngredient.getIdAchatIngredient());  // Use AchatIngredient ID
-            preparedStatement.executeUpdate();
+    
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                this.idStockIngredient = resultSet.getInt("id_stock_ingredient");
+            }
+            return this.idStockIngredient;
         } catch (SQLException e) {
             throw new SQLException("Error creating StockIngredient", e);
         } finally {
+            if (resultSet != null) {
+                resultSet.close();
+            }
             if (preparedStatement != null) {
                 preparedStatement.close();
             }
@@ -91,18 +93,21 @@ public class StockIngredient {
         }
     }
 
+    
+    
+
+    // Update method
     public void update() throws SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = Connexion.getConnexion();
-            String sql = "UPDATE stock_ingredient SET quantite_stock_ingredient = ?, id_ingredient = ?, date_stock_ingredient = ?, id_achat_ingredient = ? WHERE id_stock_ingredient = ? AND etat = true";
+            String sql = "UPDATE stock_ingredient SET quantite_stock_ingredient = ?, id_ingredient = ?, date_stock_ingredient = ? WHERE id_stock_ingredient = ? AND etat = true";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setDouble(1, this.quantiteStockIngredient);
             preparedStatement.setInt(2, this.ingredient.getIdIngredient());
             preparedStatement.setTimestamp(3, this.dateStockIngredient);
-            preparedStatement.setInt(4, this.achatIngredient.getIdAchatIngredient());  // Use AchatIngredient ID
-            preparedStatement.setInt(5, this.idStockIngredient);
+            preparedStatement.setInt(4, this.idStockIngredient);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new SQLException("Error updating StockIngredient", e);
@@ -116,6 +121,7 @@ public class StockIngredient {
         }
     }
 
+    // Delete method
     public static void delete(int idStockIngredient) throws SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -137,6 +143,7 @@ public class StockIngredient {
         }
     }
 
+    // Get by ID method
     public static StockIngredient getById(int id) throws SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -157,10 +164,6 @@ public class StockIngredient {
                 Ingredient ingredient = Ingredient.getById(resultSet.getInt("id_ingredient"));
                 stock.setIngredient(ingredient);
 
-                // Set AchatIngredient using the foreign key
-                AchatIngredient achatIngredient = AchatIngredient.getById(resultSet.getInt("id_achat_ingredient"));
-                stock.setAchatIngredient(achatIngredient);
-
                 return stock;
             }
         } catch (SQLException e) {
@@ -179,6 +182,7 @@ public class StockIngredient {
         return null;
     }
 
+    // Get all method
     public static List<StockIngredient> getAll() throws SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -199,10 +203,6 @@ public class StockIngredient {
                 Ingredient ingredient = Ingredient.getById(resultSet.getInt("id_ingredient"));
                 stock.setIngredient(ingredient);
 
-                // Set AchatIngredient using the foreign key
-                AchatIngredient achatIngredient = AchatIngredient.getById(resultSet.getInt("id_achat_ingredient"));
-                stock.setAchatIngredient(achatIngredient);
-
                 stockList.add(stock);
             }
         } catch (SQLException e) {
@@ -220,29 +220,4 @@ public class StockIngredient {
         }
         return stockList;
     }
-
-
-    public static void deleteByIdAchatIngredient(int idAchatIngredient) throws SQLException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        try {
-            connection = Connexion.getConnexion();
-            // SQL query to update the 'etat' field to false for all stock ingredients associated with the given AchatIngredient
-            String sql = "UPDATE stock_ingredient SET etat = false WHERE id_achat_ingredient = ? AND etat = true";
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, idAchatIngredient);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new SQLException("Error deleting StockIngredients by AchatIngredient ID", e);
-        } finally {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
-        }
-    }
-    
-
 }
