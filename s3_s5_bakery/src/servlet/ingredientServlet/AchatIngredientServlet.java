@@ -1,4 +1,4 @@
-package servlet.entityservlet;
+package servlet.ingredientServlet;
 
 import java.io.IOException;
 import java.util.List;

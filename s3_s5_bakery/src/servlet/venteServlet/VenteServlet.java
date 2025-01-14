@@ -1,0 +1,88 @@
+package servlet.venteServlet;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+
+import org.postgresql.jdbc.TimestampUtils;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import recette.Recette;
+import utils.DateUtils;
+import connexion.Connexion;
+import vente.Vente;
+import java.sql.*;
+
+@WebServlet("/vente")
+public class VenteServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Connection connection = null;
+        try {
+            connection = Connexion.getConnexion();
+
+            List<Recette> recettes = Recette.readAll(connection);
+            request.setAttribute("recettes", recettes);
+
+            List<Vente> ventes = Vente.selectAll(connection);
+            request.setAttribute("ventes", ventes);
+            request.getRequestDispatcher("vente.jsp").forward(request, response);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database error");
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Connection connection = null;
+        try {
+            connection = Connexion.getConnexion();
+            
+            // Retrieve form data
+            int idRecette = Integer.parseInt(request.getParameter("id_recette"));
+            double quantiteVente = Double.parseDouble(request.getParameter("quantite_vente"));
+            Timestamp timestamp=DateUtils.convertToTimestamp(request.getParameter("date_vente"));
+
+            Vente vente = new Vente();
+            Recette recette = Recette.read(connection, idRecette);
+            vente.setRecette(recette);
+            vente.setQuantiteVente(quantiteVente);
+            vente.setPrixUnitaireVente(recette.getPrixRecette());
+            vente.setPrixTotalVente(recette.getPrixRecette()*quantiteVente);
+            vente.setDateVente(new java.sql.Timestamp(System.currentTimeMillis()));
+            vente.setEtat(true);
+
+            // Insert into database
+            vente.insert(connection);
+
+            // Redirect to list of ventes
+            response.sendRedirect("vente");
+        } catch (SQLException | NumberFormatException e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error processing the request");
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+}

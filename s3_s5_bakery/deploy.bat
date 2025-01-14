@@ -9,7 +9,7 @@ set "lib=%root%\lib"
 set "web=%root%\web"
 set "temp=%root%\temp"
 set "src=%root%\src"
-set "target_dir=C:\WEBSERVER\apachetomcat\webapps"
+set "target_dir=C:\WEBSERVER\Tomcat 10.0\webapps"
 
 
 set "war_name=bakery"

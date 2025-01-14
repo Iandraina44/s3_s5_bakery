@@ -54,15 +54,40 @@
           <ul id="sidebarnav">
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-              <span class="hide-menu">RECETTE</span>
+              <span class="hide-menu">FABRICATION</span>
             </li>
 
           <li class="sidebar-item">
-              <a class="sidebar-link" href="ingredient" aria-expanded="false">
+              <a class="sidebar-link" href="fabrication" aria-expanded="false">
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
-                <span class="hide-menu">Recette</span>
+                <span class="hide-menu">Fabrication</span>
+              </a>
+            </li>
+
+
+          <ul id="sidebarnav">
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">VENTE</span>
+            </li>
+
+          <li class="sidebar-item">
+              <a class="sidebar-link" href="vente" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Vente</span>
+              </a>
+            </li>
+
+          <li class="sidebar-item">
+              <a class="sidebar-link" href="filtrerVentes" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Filtre Vente</span>
               </a>
             </li>
 

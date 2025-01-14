@@ -183,6 +183,9 @@ public class Ingredient {
     }
 
     public static void main(String[] args) throws SQLException {
-        Ingredient.delete(1);
+        Ingredient ingredient = new Ingredient();
+        ingredient.setNomIngredient("Sucre");
+        ingredient.setPrixIngredient(0.5);
+        ingredient.create();
     }
 }

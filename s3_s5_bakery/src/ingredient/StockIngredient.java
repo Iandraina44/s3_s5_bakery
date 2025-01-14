@@ -17,6 +17,21 @@ public class StockIngredient {
     private Ingredient ingredient;
     private Timestamp dateStockIngredient;
 
+
+    public StockIngredient() {
+    }
+
+
+    public StockIngredient(int idStockIngredient, double quantiteStockIngredient, boolean etat, Ingredient ingredient,
+            Timestamp dateStockIngredient) {
+        this.idStockIngredient = idStockIngredient;
+        this.quantiteStockIngredient = quantiteStockIngredient;
+        this.etat = etat;
+        this.ingredient = ingredient;
+        this.dateStockIngredient = dateStockIngredient;
+    }
+
+
     // Getters and Setters
     public int getIdStockIngredient() {
         return idStockIngredient;
