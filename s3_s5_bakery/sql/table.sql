@@ -90,3 +90,14 @@ CREATE TABLE vente(
    PRIMARY KEY(id_vente),
    FOREIGN KEY(id_recette) REFERENCES recette(id_recette)
 );
+
+
+
+CREATE TABLE recommandation(
+   id_recommandation SERIAL,
+   annee INTEGER NOT NULL,
+   int_mois INTEGER NOT NULL,
+   id_recette INTEGER NOT NULL,
+   PRIMARY KEY(id_recommandation),
+   FOREIGN KEY(id_recette) REFERENCES recette(id_recette)
+);
