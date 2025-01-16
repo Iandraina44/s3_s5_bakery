@@ -1,0 +1,10 @@
+{
+    "java.project.sourcePaths": [
+        "src",
+        "bin"
+    ],
+    "java.project.referencedLibraries": [
+        "d:\\ITU\\S5\\s3_s5\\s3_s5_bakery\\s3_s5_bakery\\lib\\postgresql-42.3.1.jar",
+        "d:\\ITU\\S5\\s3_s5\\s3_s5_bakery\\s3_s5_bakery\\lib\\servlet-api.jar"
+    ]
+}

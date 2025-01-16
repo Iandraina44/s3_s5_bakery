@@ -92,6 +92,31 @@
             </li>
 
 
+            <ul id="sidebarnav">
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">RECETTE</span>
+            </li>
+
+          <li class="sidebar-item">
+              <a class="sidebar-link" href="recommandation" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Recommandation</span>
+              </a>
+            </li>
+
+          <li class="sidebar-item">
+              <a class="sidebar-link" href="filtre-recommandation" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Filtre Recommandation</span>
+              </a>
+            </li>
+
+
 
 
           </ul>

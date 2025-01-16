@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connexion.Connexion;
-import categorie.Categorie;
-import categorie.Gout;
+import categorie.*;
 
 public class Recette {
     private int idRecette;
@@ -223,7 +222,7 @@ public class Recette {
 
     public static void main(String[] args) throws SQLException {
         Recette recette = new Recette();
-        recette.setNomRecette("Recette 1");
+        recette.setNomRecette("Recette 3");
         recette.setPrixRecette(10.0);
 
         Categorie categorie = new Categorie();
