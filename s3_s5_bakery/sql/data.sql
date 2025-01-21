@@ -8,6 +8,11 @@ insert into gout (nom_gout,etat) values
 ('chocolat','true'),
 ('au fromage','true');
 
+insert into client (nom_client,etat) values
+('Rakoto','true'),
+('Rabe','true'),
+('Rasoa','true');
+
 -- insert into ingredient (nom_ingredient,etat) values
 -- ('farine','true'),
 -- ('sucre','true'),

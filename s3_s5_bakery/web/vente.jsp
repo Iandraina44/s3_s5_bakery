@@ -1,4 +1,4 @@
-<%@ page import="ingredient.*, recette.*, vente.*, categorie.*, java.util.*" %>
+<%@ page import="ingredient.*, recette.*, vente.*, client.*, categorie.*, java.util.*" %>
 
 <jsp:include page="header.jsp" />
 
@@ -6,6 +6,8 @@
     // Retrieve attributes
     List<Recette> listeRecette = (List<Recette>) request.getAttribute("recettes");
     List<Vente> listeVente = (List<Vente>) request.getAttribute("ventes");
+    List<Client> listeClient = (List<Client>) request.getAttribute("clients");
+
 %>
 
 <div class="container-fluid">
@@ -35,6 +37,16 @@
                                 <input type="number" name="quantite_vente" min="1" required class="form-control"
                                     id="exampleInputPassword1">
                             </div>
+                            <div class="mb-3">
+                                <label class="form-label">Client</label>
+                                <select class="form-select" name="id_client">
+                                     <% for (Client client : listeClient) { %>
+                                        <option value="<%= client.getIdClient() %>">
+                                            <%= client.getNomClient() %>
+                                        </option>
+                                    <% } %>
+                                </select>
+                            </div>
                             <button type="submit" class="btn btn-primary">Insert</button>
                         </form>
                     </div>
@@ -60,6 +72,9 @@
                                             <h6 class="fw-semibold mb-0">Recette</h6>
                                         </th>
                                         <th class="border-bottom-0">
+                                            <h6 class="fw-semibold mb-0">Client</h6>
+                                        </th>
+                                        <th class="border-bottom-0">
                                             <h6 class="fw-semibold mb-0">Date</h6>
                                         </th>
                                         <th class="border-bottom-0">
@@ -72,6 +87,7 @@
                                         <tr>
                                             <td><%= vente.getIdVente() %></td>
                                             <td><%= vente.getRecette().getNomRecette() %></td>
+                                            <td><%= vente.getClient().getNomClient() %></td>
                                             <td><%= vente.getDateVente() %></td>
                                             <td><%= vente.getQuantiteVente() %></td>
                                         </tr>

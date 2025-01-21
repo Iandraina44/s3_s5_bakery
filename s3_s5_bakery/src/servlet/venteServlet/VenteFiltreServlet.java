@@ -36,7 +36,10 @@ public class VenteFiltreServlet extends HttpServlet {
             connection = Connexion.getConnexion();
 
             // Filtrer les ventes en fonction des paramètres
-            List<Vente> ventes = Vente.getByIdGoutAndIdCategorie(connection, idGout, idCategorie);
+            
+            // List<Vente> ventes = Vente.getByIdGoutAndIdCategorie(connection, idGout, idCategorie);
+            
+            List<Vente> ventes = Vente.selectAll(connection);
 
             // Stocker les résultats dans la session pour la redirection
             request.getSession().setAttribute("ventesFiltrees", ventes);

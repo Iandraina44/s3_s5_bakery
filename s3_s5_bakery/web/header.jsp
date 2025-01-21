@@ -82,6 +82,16 @@
               </a>
             </li>
 
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="client-vente" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Client Vente</span>
+              </a>
+            </li>
+
+
           <li class="sidebar-item">
               <a class="sidebar-link" href="filtrerVentes" aria-expanded="false">
                 <span>

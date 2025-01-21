@@ -23,7 +23,7 @@ public class RecommandationServlet extends HttpServlet {
         List<Recommandation> recommandations=null;
         try {
             recettes=Recette.readAll(Connexion.getConnexion());
-            recommandations = Recommandation.readAll(Connexion.getConnexion());
+            recommandations = Recommandation.getByYear(Connexion.getConnexion(), 2024);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

@@ -17,7 +17,7 @@ public class FiltreRecommandationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
-        String monthYear = req.getParameter("month_year");
+        String monthYear = req.getParameter("month_year"); 
 
         String[] parts = monthYear.split("-");
 

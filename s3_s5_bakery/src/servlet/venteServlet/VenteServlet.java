@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.postgresql.jdbc.TimestampUtils;
 
+import client.Client;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -29,6 +30,9 @@ public class VenteServlet extends HttpServlet {
 
             List<Recette> recettes = Recette.readAll(connection);
             request.setAttribute("recettes", recettes);
+
+            List<Client> clients = Client.getAll();
+            request.setAttribute("clients", clients);
 
             List<Vente> ventes = Vente.selectAll(connection);
             request.setAttribute("ventes", ventes);
@@ -58,14 +62,22 @@ public class VenteServlet extends HttpServlet {
             double quantiteVente = Double.parseDouble(request.getParameter("quantite_vente"));
             Timestamp timestamp=DateUtils.convertToTimestamp(request.getParameter("date_vente"));
 
+            int idClient=Integer.parseInt(request.getParameter("id_client"));
+
             Vente vente = new Vente();
             Recette recette = Recette.read(connection, idRecette);
+            Client client=Client.getById(idClient);
+
+
             vente.setRecette(recette);
             vente.setQuantiteVente(quantiteVente);
             vente.setPrixUnitaireVente(recette.getPrixRecette());
             vente.setPrixTotalVente(recette.getPrixRecette()*quantiteVente);
-            vente.setDateVente(new java.sql.Timestamp(System.currentTimeMillis()));
+            vente.setDateVente(timestamp);
             vente.setEtat(true);
+            vente.setClient(client);
+
+            
 
             // Insert into database
             vente.insert(connection);

@@ -137,6 +137,27 @@ public class Recommandation {
         return recommandations;
     }
 
+
+    public static List<Recommandation> getByYear(Connection connection, int annee) throws SQLException {
+        String sql = "SELECT * FROM recommandation WHERE annee = ?";
+        List<Recommandation> recommandations = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, annee);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Recette recette = Recette.read(connection, rs.getInt("id_recette"));
+                    Recommandation recommandation = new Recommandation(
+                        rs.getInt("id_recommandation"),
+                        rs.getInt("annee"),
+                        rs.getInt("mois"),  // Updated to "mois"
+                        recette
+                    );
+                    recommandations.add(recommandation);
+                }
+            }
+        }
+        return recommandations;
+    }
     // Update
     public static void update(Connection connection, Recommandation recommandation) throws SQLException {
         String sql = "UPDATE recommandation SET annee = ?, mois = ?, id_recette = ? WHERE id_recommandation = ?";
