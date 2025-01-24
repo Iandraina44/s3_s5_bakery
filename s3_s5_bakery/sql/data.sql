@@ -8,10 +8,33 @@ insert into gout (nom_gout,etat) values
 ('chocolat','true'),
 ('au fromage','true');
 
+insert into genre (nom_genre)values ('homme'),('femme');
+
+insert into vendeur (nom_vendeur,id_genre) values
+('vendeur 1',1),
+('vendeur2',1),
+('vendeur 3',2),
+('vendeur 4',2);
+
 insert into client (nom_client,etat) values
 ('Rakoto','true'),
 ('Rabe','true'),
 ('Rasoa','true');
+
+
+insert into recette (nom_recette, prix_recette,etat,id_gout,id_categorie) values
+('croissant',15000,'true',1,1),
+('pain au chocolat',10000,'true',2,1),
+('pain au fromage',12000,'true',3,1),
+('tarte au chocolat',13000,'true',2,2),
+('tarte au fromage',14000,'true',3,2),
+('tarte nature',15000,'true',1,2);
+insert into recette (nom_recette, prix_recette,etat,id_gout,id_categorie) values
+('phare breton',16000,'true',1,1);
+
+
+
+
 
 -- insert into ingredient (nom_ingredient,etat) values
 -- ('farine','true'),
@@ -21,20 +44,6 @@ insert into client (nom_client,etat) values
 -- ('lait','true'),
 -- ('chocolat','true'),
 -- ('fromage','true');
-
-insert into recette (nom_recette, prix_recette,etat,id_gout,id_categorie) values
-('croissant',1.5,'true',1,1),
-('pain au chocolat',1.5,'true',2,1),
-('pain au fromage',1.5,'true',3,1),
-('tarte au chocolat',1.5,'true',2,2),
-('tarte au fromage',1.5,'true',3,2),
-('tarte nature',1.5,'true',1,2);
-
-
-insert into recette (nom_recette, prix_recette,etat,id_gout,id_categorie) values
-('phare breton',1.5,'true',1,1);
-
-
 
 insert into recette_detail (quantite,etat,id_recette,id_ingredient) values
 (500,'true',1,1),

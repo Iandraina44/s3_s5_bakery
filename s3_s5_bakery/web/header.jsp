@@ -100,6 +100,23 @@
                 <span class="hide-menu">Filtre Vente</span>
               </a>
             </li>
+            
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="CommissionServlet" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Commission</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="genre-commission" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Genre Commission</span>
+              </a>
+            </li>
 
 
             <ul id="sidebarnav">
@@ -125,6 +142,7 @@
                 <span class="hide-menu">Filtre Recommandation</span>
               </a>
             </li>
+          
 
 
 

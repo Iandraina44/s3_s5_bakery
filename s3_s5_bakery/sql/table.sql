@@ -39,6 +39,12 @@ CREATE TABLE client(
    PRIMARY KEY(id_client)
 );
 
+CREATE TABLE genre(
+   id_genre SERIAL,
+   nom_genre VARCHAR(50)  NOT NULL,
+   PRIMARY KEY(id_genre)
+);
+
 CREATE TABLE recette(
    id_recette SERIAL,
    nom_recette VARCHAR(50)  NOT NULL,
@@ -72,6 +78,32 @@ CREATE TABLE recette_detail(
    FOREIGN KEY(id_ingredient) REFERENCES ingredient(id_ingredient)
 );
 
+CREATE TABLE recommandation(
+   id_recommandation SERIAL,
+   annee INTEGER NOT NULL,
+   mois INTEGER NOT NULL,
+   id_recette INTEGER NOT NULL,
+   PRIMARY KEY(id_recommandation),
+   FOREIGN KEY(id_recette) REFERENCES recette(id_recette)
+);
+
+CREATE TABLE vendeur(
+   id_vendeur SERIAL,
+   nom_vendeur VARCHAR(50)  NOT NULL,
+   id_genre INTEGER NOT NULL,
+   PRIMARY KEY(id_vendeur),
+   FOREIGN KEY(id_genre) REFERENCES genre(id_genre)
+);
+
+CREATE TABLE commission(
+   id_commission SERIAL,
+   montant_commission NUMERIC(15,2)   NOT NULL,
+   date_commission TIMESTAMP NOT NULL,
+   id_vendeur INTEGER NOT NULL,
+   PRIMARY KEY(id_commission),
+   FOREIGN KEY(id_vendeur) REFERENCES vendeur(id_vendeur)
+);
+
 CREATE TABLE vente(
    id_vente SERIAL,
    quantite_vente NUMERIC(15,2)   NOT NULL,
@@ -79,18 +111,11 @@ CREATE TABLE vente(
    prix_total_vente NUMERIC(15,2)   NOT NULL,
    date_vente TIMESTAMP NOT NULL,
    etat BOOLEAN NOT NULL,
+   id_vendeur INTEGER NOT NULL,
    id_client INTEGER NOT NULL,
    id_recette INTEGER NOT NULL,
    PRIMARY KEY(id_vente),
+   FOREIGN KEY(id_vendeur) REFERENCES vendeur(id_vendeur),
    FOREIGN KEY(id_client) REFERENCES client(id_client),
-   FOREIGN KEY(id_recette) REFERENCES recette(id_recette)
-);
-
-CREATE TABLE recommandation(
-   id_recommandation SERIAL,
-   annee INTEGER NOT NULL,
-   mois INTEGER NOT NULL,
-   id_recette INTEGER NOT NULL,
-   PRIMARY KEY(id_recommandation),
    FOREIGN KEY(id_recette) REFERENCES recette(id_recette)
 );

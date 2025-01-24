@@ -16,6 +16,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import recette.Recette;
 import utils.DateUtils;
 import connexion.Connexion;
+import vente.Commission;
+import vente.Vendeur;
 import vente.Vente;
 import java.sql.*;
 
@@ -30,6 +32,9 @@ public class VenteServlet extends HttpServlet {
 
             List<Recette> recettes = Recette.readAll(connection);
             request.setAttribute("recettes", recettes);
+
+            List<Vendeur> vendeurs = Vendeur.getAll();
+            request.setAttribute("vendeurs", vendeurs);
 
             List<Client> clients = Client.getAll();
             request.setAttribute("clients", clients);
@@ -59,6 +64,7 @@ public class VenteServlet extends HttpServlet {
             
             // Retrieve form data
             int idRecette = Integer.parseInt(request.getParameter("id_recette"));
+            int idVendeur = Integer.parseInt(request.getParameter("id_vendeur"));
             double quantiteVente = Double.parseDouble(request.getParameter("quantite_vente"));
             Timestamp timestamp=DateUtils.convertToTimestamp(request.getParameter("date_vente"));
 
@@ -67,6 +73,8 @@ public class VenteServlet extends HttpServlet {
             Vente vente = new Vente();
             Recette recette = Recette.read(connection, idRecette);
             Client client=Client.getById(idClient);
+            
+            Vendeur vendeur=Vendeur.getById(idVendeur);
 
 
             vente.setRecette(recette);
@@ -76,11 +84,21 @@ public class VenteServlet extends HttpServlet {
             vente.setDateVente(timestamp);
             vente.setEtat(true);
             vente.setClient(client);
+            vente.setVendeur(vendeur);
 
-            
+            if (vente.getPrixTotalVente()>200000) {    
+                Commission commission=new Commission();
+                commission.setVendeur(vendeur);
+                commission.setMontantCommission(vente.getPrixTotalVente()*0.05);
+                commission.setDateCommission(timestamp);
+                commission.insert(connection);
+            }
+
 
             // Insert into database
             vente.insert(connection);
+
+            
 
             // Redirect to list of ventes
             response.sendRedirect("vente");

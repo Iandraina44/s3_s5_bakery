@@ -6,6 +6,7 @@ import java.util.List;
 import connexion.Connexion;
 import client.Client;
 import recette.Recette;
+import vente.Vendeur;
 
 public class Vente {
     private int idVente;
@@ -16,11 +17,12 @@ public class Vente {
     private boolean etat;
     private Recette recette;
     private Client client;
+    private Vendeur vendeur;
 
     // Constructors
     public Vente() {}
 
-    public Vente(double quantiteVente, double prixUnitaireVente, double prixTotalVente, Timestamp dateVente, boolean etat, Recette recette, Client client) {
+    public Vente(double quantiteVente, double prixUnitaireVente, double prixTotalVente, Timestamp dateVente, boolean etat, Recette recette, Client client, Vendeur vendeur) {
         this.quantiteVente = quantiteVente;
         this.prixUnitaireVente = prixUnitaireVente;
         this.prixTotalVente = prixTotalVente;
@@ -28,6 +30,7 @@ public class Vente {
         this.etat = etat;
         this.recette = recette;
         this.client = client;
+        this.vendeur = vendeur;
     }
 
     // Getters and Setters
@@ -95,11 +98,19 @@ public class Vente {
         this.client = client;
     }
 
+    public Vendeur getVendeur() {
+        return vendeur;
+    }
+
+    public void setVendeur(Vendeur vendeur) {
+        this.vendeur = vendeur;
+    }
+
     // CRUD Methods
 
     // Insert
     public void insert(Connection connection) throws SQLException {
-        String sql = "INSERT INTO vente (quantite_vente, prix_unitaire_vente, prix_total_vente, date_vente, etat, id_client, id_recette) VALUES (?, ?, ?, ?, true, ?, ?)";
+        String sql = "INSERT INTO vente (quantite_vente, prix_unitaire_vente, prix_total_vente, date_vente, etat, id_client, id_recette, id_vendeur) VALUES (?, ?, ?, ?, true, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setDouble(1, this.quantiteVente);
             statement.setDouble(2, this.prixUnitaireVente);
@@ -107,6 +118,7 @@ public class Vente {
             statement.setTimestamp(4, this.dateVente);
             statement.setInt(5, this.client.getIdClient());
             statement.setInt(6, this.recette.getIdRecette());
+            statement.setInt(7, this.vendeur.getIdVendeur());
             statement.executeUpdate();
 
             try (ResultSet rs = statement.getGeneratedKeys()) {
@@ -146,7 +158,7 @@ public class Vente {
 
     // Update
     public void update(Connection connection) throws SQLException {
-        String sql = "UPDATE vente SET quantite_vente = ?, prix_unitaire_vente = ?, prix_total_vente = ?, date_vente = ?, id_client = ?, id_recette = ? WHERE id_vente = ? AND etat = true";
+        String sql = "UPDATE vente SET quantite_vente = ?, prix_unitaire_vente = ?, prix_total_vente = ?, date_vente = ?, id_client = ?, id_recette = ?, id_vendeur = ? WHERE id_vente = ? AND etat = true";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setDouble(1, this.quantiteVente);
             statement.setDouble(2, this.prixUnitaireVente);
@@ -154,7 +166,8 @@ public class Vente {
             statement.setTimestamp(4, this.dateVente);
             statement.setInt(5, this.client.getIdClient());
             statement.setInt(6, this.recette.getIdRecette());
-            statement.setInt(7, this.idVente);
+            statement.setInt(7, this.vendeur.getIdVendeur());
+            statement.setInt(8, this.idVente);
             statement.executeUpdate();
         }
     }
@@ -188,13 +201,17 @@ public class Vente {
         Recette recette = Recette.read(connection, idRecette); // Assuming Recette class has read
         vente.setRecette(recette);
 
+        // Fetch Vendeur
+        int idVendeur = rs.getInt("id_vendeur");
+        Vendeur vendeur = Vendeur.getById( idVendeur); // Assuming Vendeur class has getById
+        vente.setVendeur(vendeur);
+
         return vente;
     }
 
-
     public static List<Vente> getByDate(Connection connection, String date) throws SQLException {
         List<Vente> ventes = new ArrayList<>();
-        Date sqldate=Date.valueOf(date);
+        Date sqldate = Date.valueOf(date);
         String sql = "SELECT * FROM vente WHERE DATE(date_vente) = ? AND etat = true";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setDate(1, sqldate); // `date` is in the format "yyyy-MM-dd"
@@ -207,18 +224,16 @@ public class Vente {
         return ventes;
     }
 
-    
     public static List<Vente> getByDateClient(Connection connection, String date) throws SQLException {
         List<Vente> ventes = new ArrayList<>();
-        Date sqldate=Date.valueOf(date);
-        String sql = "SELECT id_client FROM vente WHERE DATE(date_vente) = ? AND etat = true group by id_client ";
+        Date sqldate = Date.valueOf(date);
+        String sql = "SELECT id_client FROM vente WHERE DATE(date_vente) = ? AND etat = true GROUP BY id_client";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setDate(1, sqldate); // `date` is in the format "yyyy-MM-dd"
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
-                    // ventes.add(mapResultSetToVente(connection, rs));
-                    Vente vente=new Vente();
-                    Client client=Client.getById(rs.getInt("id_client"));
+                    Vente vente = new Vente();
+                    Client client = Client.getById(rs.getInt("id_client"));
                     vente.setClient(client);
                     ventes.add(vente);
                 }
@@ -226,6 +241,4 @@ public class Vente {
         }
         return ventes;
     }
-    
-
 }
