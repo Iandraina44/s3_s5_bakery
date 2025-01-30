@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import connexion.Connexion;
 import client.Client;
+import recette.Prix;
 import recette.Recette;
 import vente.Vendeur;
 
@@ -223,6 +224,8 @@ public class Vente {
         }
         return ventes;
     }
+
+    
 
     public static List<Vente> getByDateClient(Connection connection, String date) throws SQLException {
         List<Vente> ventes = new ArrayList<>();

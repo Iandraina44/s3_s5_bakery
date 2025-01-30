@@ -135,6 +135,24 @@
             </li>
 
           <li class="sidebar-item">
+              <a class="sidebar-link" href="prix-modif" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Changer Prix</span>
+              </a>
+            </li>
+
+          <li class="sidebar-item">
+              <a class="sidebar-link" href="historique" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Histo Prix</span>
+              </a>
+            </li>
+
+          <li class="sidebar-item">
               <a class="sidebar-link" href="filtre-recommandation" aria-expanded="false">
                 <span>
                   <i class="ti ti-layout-dashboard"></i>

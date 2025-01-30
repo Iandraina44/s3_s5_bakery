@@ -72,21 +72,26 @@ public class VenteServlet extends HttpServlet {
 
             Vente vente = new Vente();
             Recette recette = Recette.read(connection, idRecette);
+
+
+            Recette recetteAjour=Recette.readOneByDate(Connexion.getConnexion(), recette, request.getParameter("date_vente"));
+
+
             Client client=Client.getById(idClient);
             
             Vendeur vendeur=Vendeur.getById(idVendeur);
 
 
-            vente.setRecette(recette);
+            vente.setRecette(recetteAjour);
             vente.setQuantiteVente(quantiteVente);
-            vente.setPrixUnitaireVente(recette.getPrixRecette());
-            vente.setPrixTotalVente(recette.getPrixRecette()*quantiteVente);
+            vente.setPrixUnitaireVente(recetteAjour.getPrixRecette());
+            vente.setPrixTotalVente(recetteAjour.getPrixRecette()*quantiteVente);
             vente.setDateVente(timestamp);
             vente.setEtat(true);
             vente.setClient(client);
             vente.setVendeur(vendeur);
 
-            if (vente.getPrixTotalVente()>200000) {    
+            if (vente.getPrixTotalVente()>=200000) {    
                 Commission commission=new Commission();
                 commission.setVendeur(vendeur);
                 commission.setMontantCommission(vente.getPrixTotalVente()*0.05);

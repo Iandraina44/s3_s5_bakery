@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connexion.Connexion;
+import utils.DateUtils;
 import categorie.*;
 
 public class Recette {
+
     private int idRecette;
     private String nomRecette;
     private double prixRecette;
@@ -218,6 +220,46 @@ public class Recette {
         for (RecetteDetail detail : RecetteDetail.readAllByRecette(connection, idRecette)) {
             RecetteDetail.delete(connection, detail.getIdRecetteDetail());
         }
+    }
+
+
+
+    // Read All Recettes by Date
+    public static List<Recette> readByDate(Connection connection, String datetime) throws SQLException {
+        // Convertir la date en Timestamp
+        Timestamp date = DateUtils.convertToTimestamp(datetime);
+
+        // Récupérer toutes les recettes actives
+        List<Recette> recettes = Recette.readAll(connection);
+
+        // Pour chaque recette, mettre à jour le prix en fonction de la date
+        for (Recette recette : recettes) {
+            // Récupérer le prix le plus récent avant la date donnée
+            Prix prix = Prix.readByRecetteAndDate(connection, recette, date);
+
+            if (prix != null) {
+                // Mettre à jour le prix de la recette
+                recette.setPrixRecette(prix.getNouveauPrix());
+            }
+        }
+
+        return recettes;
+    }
+
+
+    public static Recette readOneByDate(Connection connection, Recette recette, String datetime) throws SQLException {
+        // Convert the input datetime string to a Timestamp
+        Timestamp date = DateUtils.convertToTimestamp(datetime);
+
+        // Fetch the most recent price before the given date
+        Prix prix = Prix.readByRecetteAndDate(connection, recette, date);
+
+        if (prix != null) {
+            // Update the recette's price with the most recent price
+            recette.setPrixRecette(prix.getNouveauPrix());
+        }
+
+        return recette;
     }
 
     public static void main(String[] args) throws SQLException {

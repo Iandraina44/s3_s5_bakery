@@ -24,7 +24,7 @@
                                 <select class="form-select" name="id_recette">
                                     <% for (Recette recette : listeRecette) { %>
                                         <option value="<%= recette.getIdRecette() %>">
-                                            <%= recette.getNomRecette() %> == <%= recette.getPrixRecette() %>
+                                            <%= recette.getNomRecette() %>
                                         </option>
                                     <% } %>
                                 </select>
@@ -107,7 +107,7 @@
                                             <td><%= vente.getIdVente() %></td>
                                             <td>
                                                 <%= vente.getRecette().getNomRecette() %><br>
-                                                <%= vente.getRecette().getPrixRecette() %>
+                                                <%= vente.getPrixUnitaireVente() %>
                                             </td>
                                             <td><%= vente.getClient().getNomClient() %></td>
                                             <td><%= vente.getVendeur().getNomVendeur() %></td>
